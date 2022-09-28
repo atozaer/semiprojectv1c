@@ -1,13 +1,84 @@
 <!doctype html>
-<html xmlns:th="http://thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>세미 프로젝트 V1</title>
+    <style>
+        /* 전체영역 스타일 */
+        #container {
+            width: 950px;
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+        /* header 스타일 */
+       
+        nav ul {
+            list-style-type: none;
+            padding-bottom: 25px;
+        }
+        nav ul li {
+            float: left;
+            margin-left: 100px;
+        }
+        hr {
+            clear: both;
+            background: black;
+            height: 3px;
+        }
+
+        /* main 스타일 */
+        #main {
+            min-height: 550px;
+            
+        }
+
+        /* footer 스타일 */
+        footer p{
+            text-align: center;
+        }
+        /* 링크 스타일 */
+        a {
+            font-weight: bold;
+        }
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+        a:visited {
+            text-decoration: none;
+            color: black;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: red;
+        }
+    </style>
 </head>
 <body>
-  <h1 th:text="${sayHello}">Document</h1>
+<div id="container">
+    <header>
+        <h1>Spring MVC 프로젝트 V1</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/join">회원가입</a></li>
+                <li><a href="/login">로그인</a></li>
+                <li><a href="/list">게시판</a></li>
+                <li><a href="/myinfo">회원정보</a></li>
+            </ul>
+        </nav>
+        <hr>
+    </header>
+    <div id="main">
+    
+    </div>
+    <footer>
+        <hr>
+        <p>copyright &copy; 2022. atozaer. All Right Reserved.</p>
+    </footer>
+</div>
 </body>
 </html>

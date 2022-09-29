@@ -9,8 +9,9 @@ public class IndexController {
 
     @GetMapping(path = {"/"})
     public String index(Model model) {
-        model.addAttribute("sayHello", "Hello, World!!!");
 
-        return "index";
+        return "/index";
     }
+
+
 }

@@ -128,7 +128,6 @@
 			<version>3.0.15.RELEASE</version>
 		</dependency>
 		
-		
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

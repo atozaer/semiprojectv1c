@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <style>
+        #container {
+            width: 950px;
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+        #joinForm {
+            margin: 0 auto;
+        }
+        form table {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <h2>회원가입</h2>
+    <form id="joinForm" action="/join" method="post">
+        <table>
+            <tr>
+                <td>아이디</td>
+                <td><input type="text" name="mid" id="mid"/></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="text" name="password" id="password"/></td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <button type="reset">로그인</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

@@ -4,55 +4,85 @@
     <meta charset="UTF-8">
     <title>회원가입</title>
     <link th:href="@{/static/css/base.css}" rel="stylesheet">
-    <style>
-        #container {
-            width: 950px;
-            margin: 0 auto;
-            border: 1px solid red;
-        }
-        #joinForm {
-            margin: 0 auto;
-        }
-        form table {
-            margin: 0 auto;
-        }
-    </style>
+<!--    <style>-->
+<!--        #container {-->
+<!--            width: 950px;-->
+<!--            margin: 0 auto;-->
+<!--            border: 1px solid red;-->
+<!--        }-->
+<!--        #joinForm {-->
+<!--            margin: 0 auto;-->
+<!--        }-->
+<!--        form table {-->
+<!--            margin: 0 auto;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
 <th:block th:include="layout/header"></th:block>
 
-<div id="container">
-    <h2>회원가입</h2>
-    <form id="joinForm" action="/join" method="post">
-        <table>
-            <tr>
-                <td>아이디</td>
-                <td><input type="text" name="mid" id="mid"/></td>
-            </tr>
-            <tr>
-                <td>비밀번호</td>
-                <td><input type="text" name="password" id="password"/></td>
-            </tr>
-            <tr>
-                <td>비밀번호 확인</td>
-                <td><input type="text" name="password_check" id="password_check"/></td>
-            </tr>
-            <tr>
-                <td>이름</td>
-                <td><input type="text" name="mname" id="mname"/></td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td>
-                    <button type="submit">입력완료</button>
-                    <button type="reset">다시입력</button>
-                </td>
-            </tr>
-        </table>
+<div id="main">
+    <h1>회원가입</h1>
+    <form name="join" id="join">
+        <div>
+            <label for="uid">아이디</label>
+            <input type="text" name="userid" id="uid">
+        </div>
+        <div>
+            <label for="pwd">비밀번호</label>
+            <input type="password" name="passwd" id="pwd">
+        </div>
+        <div>
+            <label for="rpw">비밀번호 확인</label>
+            <input type="password" name="rpw" id="rpw">
+        </div>
+        <div>
+            <label for="nm">이름</label>
+            <input type="text" name="name" id="nm">
+        </div>
+        <div>
+            <label for="eml">이메일</label>
+            <input type="text" name="email" id="eml">
+        </div>
+        <div>
+            <button type="button" id="okbtn">입력완료</button>
+            <button type="reset">다시입력</button>
+        </div>
     </form>
 </div>
 
 <th:block th:include="layout/footer"></th:block>
+
+<script>
+    let okbtn = document.getElementById("okbtn");
+    okbtn.addEventListener("click", checkJoinFrm);
+
+    function checkJoinFrm() {
+        let uid = document.getElementById("uid");
+        let pwd = document.getElementById("pwd");
+        let rpw = document.getElementById("rpw");
+        let nm = document.getElementById("nm");
+        let eml = document.getElementById("eml");
+    
+        if (uid.value == '') {
+            alert("아이디를 입력하세요!!");
+        } else if (pwd.value == '') {
+            alert("비밀번호를 입력하세요!!");
+        } else if (rpw.value == '') {
+            alert("비밀번호 확인을 입력하세요!!");
+        } else if (pwd.value != rpw.value) {
+            alert("비밀번호가 일치하지 않습니다!!");
+        }else if (nm.value == '') {
+            alert("이름을 입력하세요!!");
+        } else if (eml.value == '') {
+            alert("이메일을 입력하세요!!");
+        } else {
+            const frm = document.join;
+            frm.method = 'post';
+            frm.submit();
+        }
+    }
+    
+</script>
 </body>
 </html>

@@ -1,0 +1,55 @@
+/* 전체영역 스타일 */
+#container {
+    width: 950px;
+    margin: 0 auto;
+    border: 1px solid red;
+}
+
+/* header 스타일 */
+
+nav ul {
+    list-style-type: none;
+    padding-bottom: 25px;
+}
+
+nav ul li {
+    float: left;
+    margin-left: 100px;
+}
+
+hr {
+    clear: both;
+    background: black;
+    height: 3px;
+}
+
+/* main 스타일 */
+#main {
+    min-height: 550px;
+
+}
+
+/* footer 스타일 */
+footer p {
+    text-align: center;
+}
+
+/* 링크 스타일 */
+a {
+    font-weight: bold;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: red;
+}

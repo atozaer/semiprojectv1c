@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <title>회원가입</title>
     <link th:href="@{/static/css/base.css}" rel="stylesheet">
-<!--    <style>-->
-<!--        #container {-->
-<!--            width: 950px;-->
-<!--            margin: 0 auto;-->
-<!--            border: 1px solid red;-->
-<!--        }-->
-<!--        #joinForm {-->
-<!--            margin: 0 auto;-->
-<!--        }-->
-<!--        form table {-->
-<!--            margin: 0 auto;-->
-<!--        }-->
-<!--    </style>-->
+    <style>
+        /* 회원가입폼에 대한 스타일 */
+        #join{
+            border: 1px solid blue;
+            width: 300px;
+            margin: 0 auto;
+        }
+        #join div{
+            margin-bottom: 10px;
+        }
+        #join label{
+            width: 110px;
+            display: inline-block;
+            text-align: right;
+            font-weight: bold;
+            padding: 3px;
+        }
+        #okbtn {
+            margin-left: 120px;
+        }
+        
+    </style>
 </head>
 <body>
 <th:block th:include="layout/header"></th:block>

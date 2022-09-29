@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
@@ -18,6 +18,8 @@
     </style>
 </head>
 <body>
+<th:block th:include="layout/header"></th:block>
+
 <div id="container">
     <h2>회원가입</h2>
     <form id="joinForm" action="/join" method="post">
@@ -50,5 +52,6 @@
     </form>
 </div>
 
+<th:block th:include="layout/footer"></th:block>
 </body>
 </html>

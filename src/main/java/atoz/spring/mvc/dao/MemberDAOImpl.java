@@ -2,7 +2,6 @@ package atoz.spring.mvc.dao;
 
 import atoz.spring.mvc.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -12,7 +11,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.Collections;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Repository("mdao")
 public class MemberDAOImpl implements MemberDAO {
@@ -24,7 +24,24 @@ public class MemberDAOImpl implements MemberDAO {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private RowMapper<MemberVO> memberVORowMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
+    //    private RowMapper<MemberVO> memberVORowMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
+
+    // 콜백 메서드 정의 : mapRow
+    private RowMapper<MemberVO> memberVORowMapper = new MemberVORowMapper();
+
+    private class MemberVORowMapper implements RowMapper<MemberVO> {
+        @Override
+        public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
+            MemberVO mvo = new MemberVO();
+
+            mvo.setUserid(rs.getString("userid"));
+            mvo.setName(rs.getString("name"));
+            mvo.setEmail(rs.getString("email"));
+            mvo.setRegdate(rs.getString("regdate"));
+
+            return mvo;
+        }
+    }
 
     public MemberDAOImpl(DataSource dataSource) {
         simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
@@ -45,6 +62,8 @@ public class MemberDAOImpl implements MemberDAO {
     public MemberVO selectOneMember() {
         String sql = " select userid,name,email,regdate from member where mno = 1 ";
 
-        return namedParameterJdbcTemplate.queryForObject(sql, Collections.emptyMap(), memberVORowMapper);
+        RowMapper<MemberVO> memberVORowMapper1 = new MemberVORowMapper();
+//        return namedParameterJdbcTemplate.queryForObject(sql, Collections.emptyMap(), memberVORowMapper);
+        return jdbcTemplate.queryForObject(sql, null, memberVORowMapper1);
     }
 }

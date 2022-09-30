@@ -1,13 +1,91 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}" >
+      layout:decorate="~{fragments/layout}">
 
-<th:block layout:fragment="mystyle"></th:block>
+<th:block layout:fragment="mystyle">
+    <style>
+        table {
+            border: 1px solid red;
+            width: 75%;
+            margin: 0 auto;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        thead td:nth-child(1) {
+            border: none;
+            text-align: right;
+        }
+        
+        .pgnav{
+            border: none;
+        }
+        
+        .cpage{
+            color: red;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        td:nth-child(2){
+            text-align: left;
+        }
+        
+    </style>
+
+</th:block>
 
 <th:block layout:fragment="main">
     <div id="main">
         <h1>게시판 목록</h1>
+        <table>
+            <colgroup>
+                <col style="width: 10%">
+                <col style="width: 50%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <td colspan="5">
+                    <button type="button" id="newbtn">글쓰기</button>
+                </td>
+            </tr>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b:${boardList}">
+                <td th:text="${b.bno}"></td>
+                <td><a th:text="${b.title}" th:href="@{/view(bno=${b.bno})}"></a></td>
+                <td th:text="${b.userid}"></td>
+                <td th:text="${#strings.substring(b.regdate,0,10)}"></td>
+                <td th:text="${b.views}"></td>
+            </tr>
+            <tr>
+                <td class="pgnav" colspan="5">◀ ◁ 1 2 3 <span class="cpage">4</span> 5 6 7 8 9 10 ▷ ▶</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </th:block>
 
-<th:block layout:fragment="myscript"></th:block>
+<th:block layout:fragment="myscript">
+    <script>
+        let newbtn = document.getElementById("newbtn").addEventListener("click", function (){
+            location.href = "/write";
+        })
+    </script>
+    
+</th:block>

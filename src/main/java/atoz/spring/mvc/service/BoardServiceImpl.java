@@ -5,6 +5,8 @@ import atoz.spring.mvc.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("bsrv")
 public class BoardServiceImpl implements BoardService{
 
@@ -20,5 +22,11 @@ public class BoardServiceImpl implements BoardService{
         }
 
         return isInsert;
+    }
+
+    @Override
+    public List<BoardVO> readBoard() {
+
+        return bdao.selectBoard();
     }
 }

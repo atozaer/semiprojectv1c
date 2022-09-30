@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -19,8 +20,10 @@ public class BoardController {
     protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/list")
-    public String getList(){
+    public String getList(Model model){
         LOGGER.info("getList 호출!!");
+
+        model.addAttribute("boardList", bsrv.readBoard());
 
         return "board/list";
     }

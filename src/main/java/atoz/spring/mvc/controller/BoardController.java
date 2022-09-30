@@ -20,24 +20,28 @@ public class BoardController {
 
     @GetMapping("/list")
     public String getList(){
+        LOGGER.info("getList 호출!!");
 
         return "board/list";
     }
 
     @GetMapping("/view")
     public String getView(){
+        LOGGER.info("getView 호출!!");
 
         return "board/view";
     }
 
     @GetMapping("/write")
     public String getWrite(){
+        LOGGER.info("getWrite 호출!!");
 
         return "board/write";
     }
 
     @PostMapping("/write")
     public String postWrite(BoardVO bvo){
+        LOGGER.info("postWrite 호출!!");
         bsrv.newWrite(bvo);
 
         return "redirect:/list";

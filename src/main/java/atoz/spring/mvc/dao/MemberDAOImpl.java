@@ -24,24 +24,17 @@ public class MemberDAOImpl implements MemberDAO {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    //    private RowMapper<MemberVO> memberVORowMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
+    public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
+        MemberVO mvo = new MemberVO();
 
-    // 콜백 메서드 정의 : mapRow
-    private RowMapper<MemberVO> memberVORowMapper = new MemberVORowMapper();
+        mvo.setUserid(rs.getString("userid"));
+        mvo.setName(rs.getString("name"));
+        mvo.setEmail(rs.getString("email"));
+        mvo.setRegdate(rs.getString("regdate"));
 
-    private class MemberVORowMapper implements RowMapper<MemberVO> {
-        @Override
-        public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
-            MemberVO mvo = new MemberVO();
-
-            mvo.setUserid(rs.getString("userid"));
-            mvo.setName(rs.getString("name"));
-            mvo.setEmail(rs.getString("email"));
-            mvo.setRegdate(rs.getString("regdate"));
-
-            return mvo;
-        }
+        return mvo;
     }
+
 
     public MemberDAOImpl(DataSource dataSource) {
         simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
@@ -62,8 +55,37 @@ public class MemberDAOImpl implements MemberDAO {
     public MemberVO selectOneMember() {
         String sql = " select userid,name,email,regdate from member where mno = 1 ";
 
-        RowMapper<MemberVO> memberVORowMapper1 = new MemberVORowMapper();
+        // 람다식
+        RowMapper<MemberVO> memberVORowMapper = (rs, num) -> {
+            MemberVO mvo = new MemberVO();
+
+            mvo.setUserid(rs.getString("userid"));
+            mvo.setName(rs.getString("name"));
+            mvo.setEmail(rs.getString("email"));
+            mvo.setRegdate(rs.getString("regdate"));
+
+            return mvo;
+        };
 //        return namedParameterJdbcTemplate.queryForObject(sql, Collections.emptyMap(), memberVORowMapper);
-        return jdbcTemplate.queryForObject(sql, null, memberVORowMapper1);
+        return jdbcTemplate.queryForObject(sql, null, memberVORowMapper);
     }
 }
+
+//    private RowMapper<MemberVO> memberVORowMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
+
+//      콜백 메서드 정의 : mapRow
+//    private RowMapper<MemberVO> memberVORowMapper = new MemberVORowMapper();
+//
+//    private class MemberVORowMapper implements RowMapper<MemberVO> {
+//        @Override
+//        public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
+//            MemberVO mvo = new MemberVO();
+//
+//            mvo.setUserid(rs.getString("userid"));
+//            mvo.setName(rs.getString("name"));
+//            mvo.setEmail(rs.getString("email"));
+//            mvo.setRegdate(rs.getString("regdate"));
+//
+//            return mvo;
+//        }
+//    }

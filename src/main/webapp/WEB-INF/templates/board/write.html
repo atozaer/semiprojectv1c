@@ -1,14 +1,86 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}" >
+      layout:decorate="~{fragments/layout}">
 
-<th:block layout:fragment="mystyle"></th:block>
+<th:block layout:fragment="mystyle">
+    <style>
+        #boardfrm {
+            border: 1px solid blue;
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        #boardfrm div {
+            margin-bottom: 10px;
+        }
+
+        #boardfrm label {
+            width: 110px;
+            display: inline-block;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        #boardfrm button:nth-child(1) {
+            margin-left: 115px;
+        }
+
+        input:hover, textarea:hover {
+            background: lightcyan;
+        }
+
+        .dragup {
+            vertical-align: top;
+        }
+    </style>
+</th:block>
 
 <th:block layout:fragment="main">
     
     <div id="main">
         <h1>게시판 새글쓰기</h1>
+        <form name="boardfrm" id="boardfrm">
+            <div>
+                <label for="tlt">제목</label>
+                <input type="text" name="title" id="tlt"/>
+            </div>
+            <div>
+                <label for="uid">작성자</label>
+                <input type="text" name="userid" id="uid" value="abc123" readonly="readonly"/>
+            </div>
+            <div>
+                <label for="cnt" class="dragup">본문</label>
+                <textarea cols="45" rows="7" name="contents" id="cnt"></textarea>
+            </div>
+            <div>
+                <button type="button" id="bdokbtn">입력완료</button>
+                <button type="reset">다시입력</button>
+            </div>
+        
+        
+        </form>
     </div>
 </th:block>
 
-<th:block layout:fragment="myscript"></th:block>
+<th:block layout:fragment="myscript">
+    <script>
+        let bdokbtn = document.getElementById("bdokbtn");
+        bdokbtn.addEventListener("click", checkboardfrm);
+        
+        function checkboardfrm() {
+            let frm = document.boardfrm;
+            if (frm.title.value == '') {
+                alert("제목을 작성하세요!!");
+            }else if (frm.contents.value == '') {
+                alert("본문을 입력하세요!!");
+            } else {
+                frm.method = "post";
+                frm.submit();
+            }
+        }
+    
+    
+    </script>
+
+
+</th:block>

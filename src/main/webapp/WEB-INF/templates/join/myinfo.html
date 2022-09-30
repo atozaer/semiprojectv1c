@@ -4,10 +4,47 @@
     <meta charset="UTF-8">
     <title>회원정보</title>
     <link th:href="@{/static/css/base.css}" rel="stylesheet">
+    <style>
+        table {
+            border: 1px solid blue;
+            margin: 120px auto;
+        }
+        th, td {
+            padding: 10px;
+        }
+        th {
+            text-align: right;
+        }
+        
+        
+    </style>
 </head>
 <body>
 <th:block th:include="layout/header"></th:block>
 
+<div id="main">
+    <h1>회원 정보</h1>
+    <div>
+        <table>
+            <tr>
+                <th>아이디</th>
+                <td th:text="${mvo.userid}"></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td th:text="${mvo.name}"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td th:text="${mvo.email}"></td>
+            </tr>
+            <tr>
+                <th>가입일</th>
+                <td th:text="${mvo.regdate}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 <th:block th:include="layout/footer"></th:block>
 

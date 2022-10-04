@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class BoardController {
 
@@ -20,8 +22,10 @@ public class BoardController {
     protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/list")
-    public String getList(Model model){
+    public String getList(Model model, HttpSession session){
         LOGGER.info("getList 호출!!");
+
+        session.getAttribute("mvo");
 
         model.addAttribute("boardList", bsrv.readBoard());
 
@@ -43,8 +47,9 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String postWrite(BoardVO bvo){
+    public String postWrite(BoardVO bvo, HttpSession session){
         LOGGER.info("postWrite 호출!!");
+
         bsrv.newWrite(bvo);
 
         return "redirect:/list";

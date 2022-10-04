@@ -54,7 +54,8 @@
             <thead>
             <tr>
                 <td colspan="5">
-                    <button type="button" id="newbtn">글쓰기</button>
+                    <p th:if="${session.isEmpty()}"></p>
+                    <button th:unless="${session.isEmpty()}" type="button" id="newbtn">글쓰기</button>
                 </td>
             </tr>
             <tr>

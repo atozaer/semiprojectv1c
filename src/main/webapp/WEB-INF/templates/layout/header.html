@@ -10,7 +10,7 @@
             <li th:if="${session.isEmpty()}"><a href="/login">로그인</a></li>
             <li th:unless="${session.isEmpty()}"><a href="/logout">로그아웃</a></li>
             
-            <li><a href="/list">게시판</a></li>
+            <li><a href="/list?cpg=1">게시판</a></li>
             <li><a href="/myinfo">회원정보</a></li>
         </ul>
     </nav>

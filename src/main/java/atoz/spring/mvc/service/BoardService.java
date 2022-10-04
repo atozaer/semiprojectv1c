@@ -7,7 +7,7 @@ import java.util.List;
 public interface BoardService {
     boolean newWrite(BoardVO bvo);
 
-    List<BoardVO> readBoard();
+    List<BoardVO> readBoard(int snum);
 
     BoardVO readOneBoard(String bno);
 

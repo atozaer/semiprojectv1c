@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository("bdao")
 public class BoardDAOImpl implements BoardDAO {
@@ -43,10 +45,13 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public List<BoardVO> selectBoard() {
-        String sql = " select bno,title,userid,regdate,views from board order by bno desc ";
+    public List<BoardVO> selectBoard(int snum) {
+        String sql = " select bno,title,userid,regdate,views from board order by bno desc limit :snum, 25"; // :로 들어갈 변수 지정가능 namedParameterJdbcTemplate기능
 
-        return namedParameterJdbcTemplate.query(sql, Collections.emptyMap(), boardVORowMapper);
+        Map<String, Object> params = new HashMap<>();
+        params.put("snum", snum);
+
+        return namedParameterJdbcTemplate.query(sql, params, boardVORowMapper);
     }
 
     @Override

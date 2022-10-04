@@ -2,13 +2,11 @@ package atoz.spring.mvc.controller;
 
 import atoz.spring.mvc.service.BoardService;
 import atoz.spring.mvc.vo.BoardVO;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,19 +22,33 @@ public class BoardController {
 
     protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
+    /* 페이징 처리
+     * 페이지당 게시물 수 perPage : 25
+     * 총 페이지 수 : 전체게시물수 / 페이지당 게시물 수
+     * 총 페이지 수 : ceil(getTotalPage / perPage);
+     *
+     * 페이지별 읽어올 게시글 범위
+     * 총 게시글이 55건이라 할때
+     * 1page : 1번쨰~25번째, 2page : 26~50, 3page : 51~75, ...
+     * ipage : m번째 ~ n번째 게시글 읽어옴
+     * m = (i -1) * 25
+     *
+     *  */
+
     @GetMapping("/list")
-    public String getList(Model model, HttpSession session){
+    public String getList(Model model, HttpSession session, String cpg) {
         LOGGER.info("getList 호출!!");
 
-        session.getAttribute("mvo");
+        int perpage = 25;
+        int snum = (Integer.parseInt(cpg) - 1) * perpage;
 
-        model.addAttribute("boardList", bsrv.readBoard());
+        model.addAttribute("boardList", bsrv.readBoard(snum));
 
         return "board/list";
     }
 
     @GetMapping("/view")
-    public ModelAndView getView(ModelAndView mv, String bno){
+    public ModelAndView getView(ModelAndView mv, String bno) {
         LOGGER.info("getView 호출!!");
 
         mv.setViewName("board/view");
@@ -48,7 +60,7 @@ public class BoardController {
     // 로그인 O -> board/write
     // 로그인 X -> join/login
     @GetMapping("/write")
-    public String getWrite(HttpSession session){
+    public String getWrite(HttpSession session) {
         LOGGER.info("getWrite 호출!!");
 
         String returnPage = "join/login";
@@ -60,7 +72,7 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String postWrite(BoardVO bvo, HttpSession session){
+    public String postWrite(BoardVO bvo, HttpSession session) {
         LOGGER.info("postWrite 호출!!");
 
         bsrv.newWrite(bvo);
@@ -69,7 +81,7 @@ public class BoardController {
     }
 
     @GetMapping("/del")
-    public ModelAndView getDelete(ModelAndView mv, String bno){
+    public ModelAndView getDelete(ModelAndView mv, String bno) {
 
         bsrv.deleteBoard(bno);
         mv.setViewName("redirect:/list");
@@ -78,7 +90,7 @@ public class BoardController {
     }
 
     @GetMapping("/upd")
-    public ModelAndView getUpdate(ModelAndView mv, String bno){
+    public ModelAndView getUpdate(ModelAndView mv, String bno) {
 
         bsrv.updateBoard(bno);
         mv.setViewName("redirect:/list");

@@ -39,17 +39,24 @@ public class BoardController {
         return "board/view";
     }
 
+    // 로그인 O -> board/write
+    // 로그인 X -> join/login
     @GetMapping("/write")
-    public String getWrite(){
+    public String getWrite(HttpSession session){
         LOGGER.info("getWrite 호출!!");
 
-        return "board/write";
+        String returnPage = "join/login";
+
+        if (session.getAttribute("mvo") != null) {
+            returnPage = "board/write";
+        }
+        return returnPage;
     }
 
     @PostMapping("/write")
     public String postWrite(BoardVO bvo, HttpSession session){
         LOGGER.info("postWrite 호출!!");
-
+        
         bsrv.newWrite(bvo);
 
         return "redirect:/list";

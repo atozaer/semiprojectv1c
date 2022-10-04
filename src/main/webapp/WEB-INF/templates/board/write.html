@@ -46,7 +46,7 @@
             </div>
             <div>
                 <label for="uid">작성자</label>
-                <input type="text" name="userid" id="uid" value="abc123" readonly="readonly"/>
+                <input th:value="${session.mvo.userid}" type="text" name="userid" id="uid" readonly="readonly"/>
             </div>
             <div>
                 <label for="cnt" class="dragup">본문</label>

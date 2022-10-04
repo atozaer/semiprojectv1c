@@ -21,21 +21,21 @@
             border: none;
             text-align: right;
         }
-        
-        .pgnav{
+
+        .pgnav {
             border: none;
         }
-        
-        .cpage{
+
+        .cpage {
             color: red;
             font-weight: bold;
             font-size: 20px;
         }
-        
-        td:nth-child(2){
+
+        td:nth-child(2) {
             text-align: left;
         }
-        
+    
     </style>
 
 </th:block>
@@ -54,8 +54,9 @@
             <thead>
             <tr>
                 <td colspan="5">
-                    <p th:if="${session.isEmpty()}"></p>
-                    <button th:unless="${session.isEmpty()}" type="button" id="newbtn">글쓰기</button>
+                    <!--                    <p th:if="${session.isEmpty()}"></p>-->
+                    <!--                    <button th:unless="${session.isEmpty()}" type="button" id="newbtn">글쓰기</button>-->
+                    <button th:disabled="${session.mvo == null}" type="button" id="newbtn">글쓰기</button>
                 </td>
             </tr>
             <tr>
@@ -84,9 +85,9 @@
 
 <th:block layout:fragment="myscript">
     <script>
-        let newbtn = document.getElementById("newbtn").addEventListener("click", function (){
+        let newbtn = document.getElementById("newbtn").addEventListener("click", function () {
             location.href = "/write";
         })
     </script>
-    
+
 </th:block>

@@ -8,4 +8,10 @@ public interface BoardDAO {
     int insertBoard(BoardVO bvo);
 
     List<BoardVO> selectBoard();
+
+    BoardVO selectOneBoard(String bno);
+
+    void deleteOneBoard(String bno);
+
+    void updateOneBoard(String bno);
 }

@@ -2,12 +2,95 @@
       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}" >
 
-<th:block layout:fragment="mystyle"></th:block>
+<th:block layout:fragment="mystyle">
+    <style>
+        #view {
+            border: 1px solid blue;
+            width: 70%;
+            margin: 65px auto;
+        }
+        #view div {
+            margin-top: 10px;
+        }
+        #view label {
+            display: inline-block;
+            width: 120px;
+            text-align: right;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        #cnts {
+            display: inline-block;
+            width: 350px;
+            height: 450px;
+            border: 1px solid black;
+        }
+        .dragup {
+            vertical-align: top;
+        }
+        
+    </style>
+    
+</th:block>
 
 <th:block layout:fragment="main">
     <div id="main">
         <h1>게시판 본문</h1>
+        <div id="view">
+            <div>
+                <label for="tlt">제목</label>
+                <span th:text="${bvo.title}"></span>
+            </div>
+            <div>
+                <label for="uid">작성자</label>
+                <span th:text="${bvo.userid}"></span>
+            </div>
+            <div>
+                <label for="rgd">작성일</label>
+                <span th:text="${bvo.regdate}"></span>
+            </div>
+            <div>
+                <label for="vws">조회수</label>
+                <span th:text="${bvo.views}"></span>
+            </div>
+            <div>
+                <label for="cnt" class="dragup">본문</label>
+                <span th:text="${bvo.contents}" id="cnts"></span>
+            </div>
+            <div>
+                <button type="button" id="go2list">목록</button>
+                <button type="button" id="go2update">수정</button>
+                <button type="button" id="go2delete">삭제</button>
+            </div>
+        </div>
     </div>
 </th:block>
 
-<th:block layout:fragment="myscript"></th:block>
+<th:block layout:fragment="myscript">
+    <script>
+        let go2list = document.getElementById("go2list");
+        let go2update = document.getElementById("go2update");
+        let go2delete = document.getElementById("go2delete");
+        let cnts = document.querySelector("#cnts");
+        
+        go2list.addEventListener('click', function (){
+            location.href = "/list";
+        })
+
+        go2update.addEventListener('click', function (){
+            if (confirm("정말로 수정하시겠습니까??") ) {
+                location.href = "/upd?bno=[[${param.bno}]]";
+            }
+        })
+
+        go2delete.addEventListener('click', function (){
+            if (confirm("정말로 삭제하시겠습니까??") ) {
+                location.href = "/del?bno=[[${param.bno}]]";
+            }
+        })
+        
+        cnts.setAttribute("style","white-space: pre;");
+        
+    </script>
+    
+</th:block>

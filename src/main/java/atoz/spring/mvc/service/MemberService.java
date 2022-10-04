@@ -5,7 +5,7 @@ import atoz.spring.mvc.vo.MemberVO;
 public interface MemberService {
     boolean newMember(MemberVO mvo);
 
-    MemberVO readOneMember();
+    MemberVO readOneMember(String userid);
 
     boolean checkLogin(MemberVO mvo);
 }

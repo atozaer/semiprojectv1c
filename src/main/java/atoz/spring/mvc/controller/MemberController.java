@@ -70,10 +70,19 @@ public class MemberController {
         return "redirect:/";
     }
 
-
+    // 로그인 O -> redirect:/login
+    // 로그인 X -> join/myinfo
     @GetMapping("/myinfo")
-    public String getMyInfo(Model model) {
-        model.addAttribute("mvo", msrv.readOneMember());
-        return "join/myinfo";
+    public String getMyInfo(Model model, HttpSession session) {
+        String returnPage = "join/myinfo";
+
+        if (session.getAttribute("model") != null) {
+            MemberVO mvo = (MemberVO) session.getAttribute("model");
+            model.addAttribute("mvo", msrv.readOneMember(mvo.getUserid()));
+        } else {
+            returnPage = "redirect:/login";
+        }
+
+        return returnPage;
     }
 }

@@ -53,7 +53,7 @@ public class MemberDAOImpl implements MemberDAO {
 
     @Override
     public MemberVO selectOneMember(String userid) {
-        String sql = " select userid,name,email,regdate from member where mno = ? ";
+        String sql = " select userid,name,email,regdate from member where userid = ? ";
 
         Object[] param = {userid};
 

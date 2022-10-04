@@ -21,10 +21,19 @@ public class MemberController {
     //로그 유형 : trace, debug, info, warn, error
     protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    @GetMapping("/join")
-    public String getJoin() {
 
-        return "join/join";
+    // 로그인 O -> redirect:/myinfo
+    // 로그인 X -> join/join
+    @GetMapping("/join")
+    public String getJoin(HttpSession session) {
+        String returnPage = "join/join";
+
+        if (session.getAttribute("mvo") != null) {
+
+            returnPage = "redirect:/myinfo";
+        }
+
+        return returnPage;
     }
 
     @PostMapping("/join")
@@ -54,7 +63,7 @@ public class MemberController {
         String returnPage = "join/lgnfail";
 
         if (msrv.checkLogin(mvo)) {
-            session.setAttribute("m", mvo); // 회원정보를 세션에 저장
+            session.setAttribute("mvo", mvo); // 회원정보를 세션에 저장
 
             returnPage = "redirect:/myinfo";
         }
@@ -76,9 +85,9 @@ public class MemberController {
     public String getMyInfo(Model model, HttpSession session) {
         String returnPage = "join/myinfo";
 
-        if (session.getAttribute("model") != null) {
-            MemberVO mvo = (MemberVO) session.getAttribute("model");
-            model.addAttribute("mvo", msrv.readOneMember(mvo.getUserid()));
+        if (session.getAttribute("mvo") != null) {
+            MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+            model.addAttribute("mvo",msrv.readOneMember(mvo.getUserid()));
         } else {
             returnPage = "redirect:/login";
         }

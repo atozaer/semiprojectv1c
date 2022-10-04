@@ -29,4 +29,16 @@ public class MemberServiceImpl implements MemberService{
 
         return mdao.selectOneMember();
     }
+
+    @Override
+    public boolean checkLogin(MemberVO mvo) {
+        boolean isLogin = false;
+
+        //회원이 존재한다면
+        if ((mdao.selectOneMember(mvo))>0) {
+            isLogin = true;
+        }
+
+        return isLogin;
+    }
 }

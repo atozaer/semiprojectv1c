@@ -6,4 +6,6 @@ public interface MemberService {
     boolean newMember(MemberVO mvo);
 
     MemberVO readOneMember();
+
+    boolean checkLogin(MemberVO mvo);
 }

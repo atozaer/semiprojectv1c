@@ -69,6 +69,18 @@ public class MemberDAOImpl implements MemberDAO {
 //        return namedParameterJdbcTemplate.queryForObject(sql, Collections.emptyMap(), memberVORowMapper);
         return jdbcTemplate.queryForObject(sql, null, memberVORowMapper);
     }
+
+    @Override
+    public int selectOneMember(MemberVO mvo) {
+        String sql = " select count(mno) cnt from member where userid = ? and passwd = ? ";
+
+        Object[] params = {
+                mvo.getUserid(),
+                mvo.getPasswd(),
+        };
+
+        return jdbcTemplate.queryForObject(sql, params, Integer.class);
+    }
 }
 
 //    private RowMapper<MemberVO> memberVORowMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);

@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class MemberController {
 
@@ -20,13 +22,13 @@ public class MemberController {
     protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/join")
-    public String getJoin(){
+    public String getJoin() {
 
         return "join/join";
     }
 
     @PostMapping("/join")
-    public String postJoin(MemberVO mvo){
+    public String postJoin(MemberVO mvo) {
         LOGGER.info("postJoin 호출!! {}", mvo);
 
         // 회원정보 저장
@@ -39,21 +41,38 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String getLogin(){
+    public String getLogin() {
         LOGGER.info("getLogin 호출!!");
 
         return "join/login";
     }
 
-    @PostMapping("/login")
-    public String postLogin(){
+    @PostMapping("/login") // 로그인 처리
+    public String postLogin(MemberVO mvo, HttpSession session) {
         LOGGER.info("postLogin 호출!!");
+
+        String returnPage = "join/lgnfail";
+
+        if (msrv.checkLogin(mvo)) {
+            session.setAttribute("m", mvo); // 회원정보를 세션에 저장
+
+            returnPage = "redirect:/myinfo";
+        }
+
+
+        return returnPage;
+    }
+
+    @GetMapping("/logout")
+    public String getLogout(HttpSession session) {
+        session.invalidate();
 
         return "redirect:/";
     }
 
+
     @GetMapping("/myinfo")
-    public String getMyInfo(Model model){
+    public String getMyInfo(Model model) {
         model.addAttribute("mvo", msrv.readOneMember());
         return "join/myinfo";
     }

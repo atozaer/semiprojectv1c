@@ -46,4 +46,10 @@ public class BoardServiceImpl implements BoardService{
     public void updateBoard(String bno) {
         bdao.updateOneBoard(bno);
     }
+
+    @Override
+    public int readCountBoard() {
+
+        return bdao.readCountBoard();
+    }
 }

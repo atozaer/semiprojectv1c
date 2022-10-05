@@ -2,6 +2,7 @@ package atoz.spring.mvc.controller;
 
 import atoz.spring.mvc.service.BoardService;
 import atoz.spring.mvc.vo.BoardVO;
+import jdk.internal.util.xml.impl.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +58,16 @@ public class BoardController {
             cpg = "1";
         }
         int cpage = Integer.parseInt(cpg);
+        if (cpage < 0) {
+            cpage = 1;
+        }
         int snum = (cpage - 1) * perpage;
         int stpgn = ((cpage - 1) / 10) * 10 + 1;
 
+        model.addAttribute("pages", bsrv.readCountBoard());
         model.addAttribute("boardList", bsrv.readBoard(snum));
         model.addAttribute("stpgn", stpgn);
-//        model.addAttribute("cpg", Integer.parseInt(cpg));
+        model.addAttribute("cpg", Integer.parseInt(cpg));
 
         return "board/list";
     }

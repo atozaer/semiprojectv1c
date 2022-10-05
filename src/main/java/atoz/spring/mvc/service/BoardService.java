@@ -14,4 +14,6 @@ public interface BoardService {
     void deleteBoard(String bno);
 
     void updateBoard(String bno);
+
+    int readCountBoard();
 }

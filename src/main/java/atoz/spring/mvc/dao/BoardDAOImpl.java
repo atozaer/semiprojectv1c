@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,5 +80,12 @@ public class BoardDAOImpl implements BoardDAO {
     @Override
     public void updateOneBoard(String bno) {
 
+    }
+
+    @Override
+    public int readCountBoard() {
+        String sql = "select ceil(count(bno)/25) pages from board";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }

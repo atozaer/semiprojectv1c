@@ -50,12 +50,15 @@ public class BoardController {
     *  */
 
     @GetMapping("/list")
-    public String getList(Model model, HttpSession session, String cpg) {
+    public String getList(Model model, HttpSession session, String cpg, String fkey, String fval) {
         LOGGER.info("getList 호출!!");
 
         int perpage = 25;
         if (cpg == null || cpg.equals("")) {
             cpg = "1";
+        }
+        if (fkey == null) {
+            fkey = "";
         }
         int cpage = Integer.parseInt(cpg);
         if (cpage < 0) {
@@ -64,8 +67,8 @@ public class BoardController {
         int snum = (cpage - 1) * perpage;
         int stpgn = ((cpage - 1) / 10) * 10 + 1;
 
-        model.addAttribute("pages", bsrv.readCountBoard());
-        model.addAttribute("boardList", bsrv.readBoard(snum));
+        model.addAttribute("pages", bsrv.readCountBoard(fkey,fval));
+        model.addAttribute("boardList", bsrv.readBoard(snum,fkey,fval));
         model.addAttribute("stpgn", stpgn);
         model.addAttribute("cpg", Integer.parseInt(cpg));
 

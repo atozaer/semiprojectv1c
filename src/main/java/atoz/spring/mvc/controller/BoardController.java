@@ -71,7 +71,7 @@ public class BoardController {
         model.addAttribute("boardList", bsrv.readBoard(snum,fkey,fval));
         model.addAttribute("stpgn", stpgn);
         model.addAttribute("fqry", "&fkey="+fkey+"&fval="+fval);
-        model.addAttribute("cpg", Integer.parseInt(cpg));
+        model.addAttribute("cpg", cpage);
 
         return "board/list";
     }

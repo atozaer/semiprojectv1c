@@ -55,11 +55,11 @@ public class BoardDAOImpl implements BoardDAO {
         StringBuilder sql = new StringBuilder();
         sql.append(" select bno,title,userid,regdate,views from board ");
         if (fkey.equals("title")) {
-            sql.append(" where title = :fval ");
+            sql.append(" where title like :fval ");
         } else if (fkey.equals("userid")) {
-            sql.append(" where userid = :fval ");
+            sql.append(" where userid like :fval ");
         } else if (fkey.equals("contents")) {
-            sql.append(" where contents = :fval ");
+            sql.append(" where contents like :fval ");
         }
         sql.append(" order by bno desc limit :snum, 25 ");
 
@@ -67,7 +67,7 @@ public class BoardDAOImpl implements BoardDAO {
 
         Map<String, Object> params = new HashMap<>();
         params.put("snum", snum);
-        params.put("fval", fval);
+        params.put("fval", "%" + fval + "%");
 
         return namedParameterJdbcTemplate.query(sql.toString(), params, boardVORowMapper);
     }
@@ -103,8 +103,21 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public int selectCountBoard(String fkey, String fval) {
-        String sql = "select ceil(count(bno)/25) pages from board";
+        StringBuilder sql = new StringBuilder();
+        sql.append(" select ceil(count(bno)/25) pages from board ");
 
-        return jdbcTemplate.queryForObject(sql, Integer.class);
+        if (fkey.equals("title")) {
+            sql.append(" where title like :fval ");
+        } else if (fkey.equals("userid")) {
+            sql.append(" where userid like :fval ");
+        } else if (fkey.equals("contents")) {
+            sql.append(" where contents like :fval ");
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("fval", "%" + fval + "%");
+
+        return namedParameterJdbcTemplate.queryForObject(sql.toString(), params, Integer.class);
     }
+
 }

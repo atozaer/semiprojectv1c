@@ -94,20 +94,20 @@
             </tr>
             <tr>
                 <td class="pgnav" colspan="5">
-                    <a th:if="${cpg!=1}" href="/list?cpg=1">[처음]</a>
-                    <a th:if="${cpg>1}" th:href="@{/list(cpg=${cpg - 1})}">[이전]</a>
-                    <a th:if="${cpg>10}" th:href="@{/list(cpg=${cpg - 10})}">[이전10]</a>
+                    <a th:if="${cpg!=1}" th:href="@{/list(cpg=1,fkey=${param.fkey},fval=${param.fval})}">[처음]</a>
+                    <a th:if="${cpg>1}" th:href="@{/list(cpg=${cpg - 1},fkey=${param.fkey},fval=${param.fval})}">[이전]</a>
+                    <a th:if="${cpg>10}" th:href="@{/list(cpg=${cpg - 10},fkey=${param.fkey},fval=${param.fval})}">[이전10]</a>
                     <th:block th:each=" i: ${#numbers.sequence(0,9) }">
                         <th:block th:if="${(stpgn + i) <= pages}">
                             <span th:text="${stpgn + i}" th:if="${cpg == (stpgn + i)}" class="cpage"></span>
                             <span th:unless="${cpg == (stpgn + i)}">
-                            <a th:href="@{/list(cpg=${stpgn + i})}">[[${stpgn + i}]]</a>
+                            <a th:href="@{/list(cpg=${stpgn + i},fkey=${param.fkey},fval=${param.fval})}">[[${stpgn + i}]]</a>
                         </span>
                         </th:block>
                     </th:block>
-                    <a th:if="${cpg < pages}" th:href="@{/list(cpg=${cpg + 1})}">[다음]</a>
-                    <a th:if="${cpg < (pages - 10)}" th:href="@{/list(cpg=${cpg + 10})}">[다음10]</a>
-                    <a th:if="${cpg < pages}" th:href="@{/list(cpg=${pages})}">[끝]</a>
+                    <a th:if="${cpg < pages}" th:href="@{/list(cpg=${cpg + 1},fkey=${param.fkey},fval=${param.fval})}">[다음]</a>
+                    <a th:if="${cpg < (pages - 10)}" th:href="@{/list(cpg=${cpg + 10},fkey=${param.fkey},fval=${param.fval})}">[다음10]</a>
+                    <a th:if="${cpg < pages}" th:href="@{/list(cpg=${pages},fkey=${param.fkey},fval=${param.fval})}">[끝]</a>
                 </td>
             </tr>
             </tbody>

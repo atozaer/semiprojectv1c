@@ -41,8 +41,8 @@
 </th:block>
 
 <th:block layout:fragment="main">
-    <div id="main">
-        <h1>게시판 목록</h1>
+    <div id="main" th:with="cpg=${(param.cpg == null)?1:T(java.lang.Integer).parseInt(param.cpg)}">
+        <h1>게시판 목록([[${param.cpg}]] / [[${stpgn}]])</h1>
         <table>
             <colgroup>
                 <col style="width: 10%">
@@ -76,7 +76,16 @@
                 <td th:text="${b.views}"></td>
             </tr>
             <tr>
-                <td class="pgnav" colspan="5">◀ ◁ 1 2 3 <span class="cpage">4</span> 5 6 7 8 9 10 ▷ ▶</td>
+                <td class="pgnav" colspan="5">
+                    [처음] [이전] [이전10]
+                    <th:block th:each=" i: ${#numbers.sequence(0,9) }">
+                        <span th:text="${stpgn + i}" th:if="${cpg == (stpgn + i)}" class="cpage"></span>
+                        <span th:unless="${cpg == (stpgn + i)}">
+                            <a th:href="@{/list(cpg=${stpgn + i})}">[[${stpgn + i}]]</a>
+                        </span>
+                    </th:block>
+                    [다음] [다음10] [끝]
+                </td>
             </tr>
             </tbody>
         </table>

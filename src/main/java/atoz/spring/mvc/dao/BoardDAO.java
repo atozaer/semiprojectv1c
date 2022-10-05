@@ -11,9 +11,9 @@ public interface BoardDAO {
 
     BoardVO selectOneBoard(String bno);
 
-    void deleteOneBoard(String bno);
+    int deleteOneBoard(String bno);
 
-    void updateOneBoard(String bno);
+    int updateOneBoard(String bno, String title, String contents);
 
     int selectCountBoard(String fkey, String fval);
 }

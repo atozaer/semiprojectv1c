@@ -11,9 +11,9 @@ public interface BoardService {
 
     BoardVO readOneBoard(String bno);
 
-    void deleteBoard(String bno);
+    int deleteBoard(String bno);
 
-    void updateBoard(String bno);
+    int updateBoard(String bno, String title, String contents);
 
     int readCountBoard(String fkey, String fval);
 }

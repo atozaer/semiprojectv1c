@@ -38,14 +38,14 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void deleteBoard(String bno) {
+    public int deleteBoard(String bno) {
 
-        bdao.deleteOneBoard(bno);
+        return bdao.deleteOneBoard(bno);
     }
 
     @Override
-    public void updateBoard(String bno) {
-        bdao.updateOneBoard(bno);
+    public int updateBoard(String bno, String title, String contents) {
+        return bdao.updateOneBoard(bno,title,contents);
     }
 
     @Override

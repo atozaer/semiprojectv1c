@@ -86,22 +86,27 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public void deleteOneBoard(String bno) {
+    public int deleteOneBoard(String bno) {
         String sql = " delete from board where bno = ?";
 
         Object[] param = {
                 bno
         };
 
-        jdbcTemplate.update(sql, param);
+        return jdbcTemplate.update(sql, param);
     }
 
     @Override
-    public void updateOneBoard(String bno) {
-        String sql = " update board set title,contents where bno = :bno";
+    public int updateOneBoard(String bno, String title, String contents) {
+        String sql = " update board set (title=?,content=?) = where bno = ?";
 
+        Object[] params = {
+                title,
+                contents,
+                bno
+        };
 
-
+        return jdbcTemplate.update(sql,params);
     }
 
     @Override

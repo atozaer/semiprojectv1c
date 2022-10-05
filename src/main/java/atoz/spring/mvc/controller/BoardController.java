@@ -109,18 +109,28 @@ public class BoardController {
     }
 
     @GetMapping("/del")
-    public ModelAndView getDelete(ModelAndView mv, String bno) {
+    public String getDelete(HttpSession session, String bno) {
+        String returnPage = "redirect:/list?cpg=1";
 
-        bsrv.deleteBoard(bno);
-        mv.setViewName("redirect:/list");
+        if(session.getAttribute("mvo") != null){
+            bsrv.deleteBoard(bno);
+        }
 
-        return mv;
+        return returnPage;
     }
 
     @GetMapping("/upd")
-    public ModelAndView getUpdate(ModelAndView mv, String bno) {
+    public String getUpdate(){
 
-        bsrv.updateBoard(bno);
+        return "board/update";
+    }
+
+
+    @PostMapping("/upd")
+    public ModelAndView postUpdate(ModelAndView mv, String bno, String title, String contents) {
+
+        bsrv.updateBoard(bno, title, contents);
+        mv.addObject("bno", bno);
         mv.setViewName("redirect:/list");
 
         return mv;

@@ -2,7 +2,6 @@ package atoz.spring.mvc.controller;
 
 import atoz.spring.mvc.service.BoardService;
 import atoz.spring.mvc.vo.BoardVO;
-import jdk.internal.util.xml.impl.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +35,18 @@ public class BoardController {
      *  */
 
     /*
-    * 현재 페이지에 따라 보여줄 페이지 블럭 결정
-    * ex) 총 페이지수가 27일때
-    * cpg = 1 : 1 2 3 4 5 6 7 8 9 10
-    * cpg = 5 : 1 2 3 4 5 6 7 8 9 10
-    * cpg = 9 : 1 2 3 4 5 6 7 8 9 10
-    * cpg = 11 : 11 12 13 14 15 16 17 18 19 20
-    * cpg = 23 : 21 22 23 24 25 26 27 28 29 30
-    *
-    * cpg = n : ? ?+1 ?+2 ?+3 ... ?+9
-    * stpgn = ((cpg - 1) / 10) * 10 + 1
-    *
-    *  */
+     * 현재 페이지에 따라 보여줄 페이지 블럭 결정
+     * ex) 총 페이지수가 27일때
+     * cpg = 1 : 1 2 3 4 5 6 7 8 9 10
+     * cpg = 5 : 1 2 3 4 5 6 7 8 9 10
+     * cpg = 9 : 1 2 3 4 5 6 7 8 9 10
+     * cpg = 11 : 11 12 13 14 15 16 17 18 19 20
+     * cpg = 23 : 21 22 23 24 25 26 27 28 29 30
+     *
+     * cpg = n : ? ?+1 ?+2 ?+3 ... ?+9
+     * stpgn = ((cpg - 1) / 10) * 10 + 1
+     *
+     *  */
 
     @GetMapping("/list")
     public String getList(Model model, HttpSession session, String cpg, String fkey, String fval) {
@@ -67,11 +66,11 @@ public class BoardController {
         int snum = (cpage - 1) * perpage;
         int stpgn = ((cpage - 1) / 10) * 10 + 1;
 
-        model.addAttribute("pages", bsrv.readCountBoard(fkey,fval));
-        model.addAttribute("boardList", bsrv.readBoard(snum,fkey,fval));
+        model.addAttribute("pages", bsrv.readCountBoard(fkey, fval));
+        model.addAttribute("boardList", bsrv.readBoard(snum, fkey, fval));
         model.addAttribute("stpgn", stpgn);
         model.addAttribute("fqry", "&fkey="+fkey+"&fval="+fval);
-        model.addAttribute("cpg", cpage);
+//        model.addAttribute("cpg", cpage);
 
         return "board/list";
     }

@@ -98,6 +98,9 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public void updateOneBoard(String bno) {
+        String sql = " update board set title,contents where bno = :bno";
+
+
 
     }
 

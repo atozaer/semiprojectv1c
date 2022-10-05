@@ -49,7 +49,7 @@
 
 <th:block layout:fragment="main">
     <div id="main" th:with="cpg=${(param.cpg == null)?1:T(java.lang.Integer).parseInt(param.cpg)}">
-        <h1>게시판 목록([[${param.cpg}]] / [[${stpgn}]] / [[${pages}]] / [[${param.fkey}]] / [[${param.fval}]])</h1>
+        <h1 th:with="qry=(${#httpServletRequest.queryString})">게시판 목록([[${stpgn}]] / [[${pages}]] / [[${param.fkey}]] / [[${param.fval}]] / [[${qry}]])</h1>
         <table>
             <colgroup>
                 <col style="width: 10%">
@@ -96,7 +96,7 @@
                 <td class="pgnav" colspan="5">
                     <a th:if="${cpg!=1}" th:href="@{'/list?cpg=1' + ${fqry}}">[처음]</a>
                     <a th:if="${cpg>1}"  th:href="@{'/list?cpg='+${cpg - 1}+${fqry}}">[이전]</a>
-                    <a th:if="${cpg>10}" th:href="@{'/list(cpg='+${cpg - 10}+${fqry}}">[이전10]</a>
+                    <a th:if="${cpg>10}" th:href="@{'/list?cpg='+${cpg - 10}+${fqry}}">[이전10]</a>
                     <th:block th:each=" i: ${#numbers.sequence(0,9) }">
                         <th:block th:if="${(stpgn + i) <= pages}">
                             <span th:text="${stpgn + i}" th:if="${cpg == (stpgn + i)}" class="cpage"></span>

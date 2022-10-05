@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}" >
+      layout:decorate="~{fragments/layout}">
 
 <th:block layout:fragment="mystyle">
     <style>
@@ -9,9 +9,11 @@
             width: 70%;
             margin: 65px auto;
         }
+
         #view div {
             margin-top: 10px;
         }
+
         #view label {
             display: inline-block;
             width: 120px;
@@ -19,18 +21,20 @@
             font-weight: bold;
             margin-right: 15px;
         }
+
         #cnts {
             display: inline-block;
             width: 350px;
             height: 450px;
             border: 1px solid black;
         }
+
         .dragup {
             vertical-align: top;
         }
-        
-    </style>
     
+    </style>
+
 </th:block>
 
 <th:block layout:fragment="main">
@@ -59,8 +63,11 @@
             </div>
             <div>
                 <button type="button" id="go2list">목록</button>
-                <button type="button" id="go2update">수정</button>
-                <button type="button" id="go2delete">삭제</button>
+                
+                <th:block th:if="${not session.isEmpty() and session.mvo.userid == bvo.userid}">
+                    <button type="button" id="go2update">수정</button>
+                    <button type="button" id="go2delete">삭제</button>
+                </th:block>
             </div>
         </div>
     </div>
@@ -73,24 +80,24 @@
         let go2delete = document.getElementById("go2delete");
         let cnts = document.querySelector("#cnts");
         
-        go2list.addEventListener('click', function (){
+        go2list.addEventListener('click', function () {
             location.href = "/list";
         })
-
-        go2update.addEventListener('click', function (){
-            if (confirm("정말로 수정하시겠습니까??") ) {
+        
+        go2update?.addEventListener('click', function () {
+            if (confirm("정말로 수정하시겠습니까??")) {
                 location.href = "/upd?bno=[[${param.bno}]]";
             }
         })
-
-        go2delete.addEventListener('click', function (){
-            if (confirm("정말로 삭제하시겠습니까??") ) {
+        
+        go2delete?.addEventListener('click', function () {
+            if (confirm("정말로 삭제하시겠습니까??")) {
                 location.href = "/del?bno=[[${param.bno}]]";
             }
         })
         
-        cnts.setAttribute("style","white-space: pre;");
-        
-    </script>
+        cnts.setAttribute("style", "white-space: pre;");
     
+    </script>
+
 </th:block>

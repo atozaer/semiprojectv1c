@@ -2,6 +2,7 @@ package atoz.spring.mvc.controller;
 
 import atoz.spring.mvc.service.MemberService;
 import atoz.spring.mvc.vo.MemberVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 public class MemberController {
@@ -108,4 +112,22 @@ public class MemberController {
 
         return result;
     }
+
+    // 우편번호 검색
+    // 요청 URL : /findzip?dong=조회할_동이름
+    // 요청 결과 : JSON 객체
+
+
+    @ResponseBody
+    @GetMapping("/findzip")
+    public void findzip(String dong, HttpServletResponse res) throws IOException {
+
+        res.setContentType("application/json; charset=UTF-8");
+
+        // 응답결과를 뷰없이 브라우저로 바로 출력
+        res.getWriter().print(msrv.findZipcode(dong));
+    }
 }
+
+
+

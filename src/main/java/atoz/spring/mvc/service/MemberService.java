@@ -8,4 +8,6 @@ public interface MemberService {
     MemberVO readOneMember(String userid);
 
     boolean checkLogin(MemberVO mvo);
+
+    String checkUid(String uid);
 }

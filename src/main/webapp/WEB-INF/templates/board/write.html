@@ -36,7 +36,8 @@
         .pushright {
             margin-left: 110px;
         }
-        .danger{
+
+        .danger {
             color: red;
             font-weight: bold;
         }
@@ -59,12 +60,12 @@
             </div>
             <div>
                 <label for="cnt" class="dragup">본문</label>
-                <textarea cols="45" rows="7" name="contents" id="cnt" th:value="${(bvo==null)}?'':${bvo.contents}"></textarea>
+                <textarea cols="45" rows="7" name="contents" id="cnt"
+                          th:value="${(bvo==null)}?'':${bvo.contents}"></textarea>
             </div>
             <div class="g-recaptcha pushright" data-sitekey="6Lcr81oiAAAAAIIAq1JrVTZre3O6bNElScq0JFgY">
             </div>
             <div class="pushright danger" th:text="${msg}"></div>
-            
             
             <input type="hidden" name="gcaptcha"/>
             <div>
@@ -94,7 +95,6 @@
                 frm.submit();
             }
         }
-    
     
     </script>
 

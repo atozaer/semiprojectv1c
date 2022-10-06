@@ -6,25 +6,28 @@
     <link th:href="@{/static/css/base.css}" rel="stylesheet">
     <style>
         /* 회원가입폼에 대한 스타일 */
-        #join{
+        #join {
             border: 1px solid blue;
             width: 300px;
             margin: 0 auto;
         }
-        #join div{
+
+        #join div {
             margin-bottom: 10px;
         }
-        #join label{
+
+        #join label {
             width: 110px;
             display: inline-block;
             text-align: right;
             font-weight: bold;
             padding: 3px;
         }
+
         #okbtn {
             margin-left: 120px;
         }
-        
+    
     </style>
 </head>
 <body>
@@ -36,6 +39,7 @@
         <div>
             <label for="uid">아이디</label>
             <input type="text" name="userid" id="uid">
+            <span id="chkmsg"></span>
         </div>
         <div>
             <label for="pwd">비밀번호</label>
@@ -44,6 +48,7 @@
         <div>
             <label for="rpw">비밀번호 확인</label>
             <input type="password" name="rpw" id="rpw">
+            <span id="pwdmsg"></span>
         </div>
         <div>
             <label for="nm">이름</label>
@@ -53,6 +58,8 @@
             <label for="eml">이메일</label>
             <input type="text" name="email" id="eml">
         </div>
+        
+        <input type="hidden" name="chkuid" value="no">
         <div>
             <button type="button" id="okbtn">입력완료</button>
             <button type="reset">다시입력</button>
@@ -63,15 +70,41 @@
 <th:block th:include="layout/footer"></th:block>
 
 <script>
+    
+    // 아이디 중복 검사
+    // /checkid?uid=???
+    let userid = document.querySelector("#uid");
+    userid.addEventListener('blur', () => {
+        let qry = '?uid=' + userid.value;
+        fetch('/checkuid' + qry) //ajax 호출
+            .then(response => response.text()) // 결과받음
+            .then(text => checkuserid(text));  // 함수에 넘김
+    });
+    
+    function checkuserid(result) {
+        let msg = document.querySelector("#chkmsg");
+        msg.style.marginLeft = 115+"px";
+        if (result == '1') {
+            msg.innerHTML = '사용불가 아이디입니다.';
+            msg.style.color = 'red';
+        } else if (result == '0') {
+            msg.innerHTML = '사용가능 아이디입니다.';
+            msg.style.color = 'blue';
+            document.join.chkuid.value = 'yes';
+        }
+    }
+    
     let okbtn = document.getElementById("okbtn");
     okbtn.addEventListener("click", checkJoinFrm);
-
+    
     function checkJoinFrm() {
         let uid = document.getElementById("uid");
         let pwd = document.getElementById("pwd");
         let rpw = document.getElementById("rpw");
         let nm = document.getElementById("nm");
         let eml = document.getElementById("eml");
+        const frm = document.join;
+    
     
         if (uid.value == '') {
             alert("아이디를 입력하세요!!");
@@ -81,17 +114,18 @@
             alert("비밀번호 확인을 입력하세요!!");
         } else if (pwd.value != rpw.value) {
             alert("비밀번호가 일치하지 않습니다!!");
-        }else if (nm.value == '') {
+        } else if (nm.value == '') {
             alert("이름을 입력하세요!!");
         } else if (eml.value == '') {
             alert("이메일을 입력하세요!!");
+        } else if (frm.chkuid.value == 'no') {
+            alert('아이디 중복검사를 하세요!');
         } else {
-            const frm = document.join;
             frm.method = 'post';
             frm.submit();
         }
     }
-    
+
 </script>
 </body>
 </html>

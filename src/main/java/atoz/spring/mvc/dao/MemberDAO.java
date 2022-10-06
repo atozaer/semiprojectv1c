@@ -8,4 +8,6 @@ public interface MemberDAO {
     MemberVO selectOneMember(String userid);
 
     int selectOneMember(MemberVO mvo);
+
+    int selectCheckUserId(String uid);
 }

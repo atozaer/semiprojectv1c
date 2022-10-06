@@ -83,6 +83,17 @@ public class MemberDAOImpl implements MemberDAO {
 
         return jdbcTemplate.queryForObject(sql, params, Integer.class);
     }
+
+    @Override
+    public int selectCheckUserId(String uid) {
+        String sql = " select count(mno) cnt from member where userid = ? ";
+
+        Object[] param = new Object[]{
+                uid
+        };
+
+        return jdbcTemplate.queryForObject(sql, param, Integer.class);
+    }
 }
 
 //    private RowMapper<MemberVO> memberVORowMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);

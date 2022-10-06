@@ -1,7 +1,10 @@
 package atoz.spring.mvc.controller;
 
 import atoz.spring.mvc.service.BoardService;
+import atoz.spring.mvc.utils.RecaptchaUtils;
 import atoz.spring.mvc.vo.BoardVO;
+import atoz.spring.mvc.vo.MemberVO;
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +13,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.SessionFlashMapManager;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 public class BoardController {
 
     // bean 클래스로 정의한 경우 @Autowired 어노테이션 생략 가능
-    @Autowired
+//    @Autowired
+//    private BoardService bsrv;
+//
+//    @Autowired
+//    private RecaptchaUtils grcp;
     private BoardService bsrv;
+    private RecaptchaUtils grcp;
+
+    @Autowired
+    public BoardController(BoardService bsrv, RecaptchaUtils grcp) {
+        this.bsrv = bsrv;
+        this.grcp = grcp;
+    }
 
     protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
@@ -69,7 +86,7 @@ public class BoardController {
         model.addAttribute("pages", bsrv.readCountBoard(fkey, fval));
         model.addAttribute("boardList", bsrv.readBoard(snum, fkey, fval));
         model.addAttribute("stpgn", stpgn);
-        model.addAttribute("fqry", "&fkey="+fkey+"&fval="+fval);
+        model.addAttribute("fqry", "&fkey=" + fkey + "&fval=" + fval);
 //        model.addAttribute("cpg", cpage);
 
         return "board/list";
@@ -99,20 +116,35 @@ public class BoardController {
         return returnPage;
     }
 
+    // captcha 작동원리
+    // captcha 사용시 클라이언트가 생성한 키와
+    // 서버에 설정해 둔 (비밀)키등을
+    // google의 siteverify에서 비교해서 인증에 성공하면
+    // list로 redirect하고, 그렇치 않으면 다시 write로 return함
+    // VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+    // 질의를 위한 질의문자열을 작성
+    // ?secret=비밀키&response=클라이언트응답키
+
     @PostMapping("/write")
-    public String postWrite(BoardVO bvo, HttpSession session) {
-        LOGGER.info("postWrite 호출!!");
+    public String postWrite(BoardVO bvo, String gcaptcha, RedirectAttributes rda) throws IOException, ParseException {
+        String returnPage = "redirect:/write";
 
-        bsrv.newWrite(bvo);
+        if (grcp.checkCaptcha(gcaptcha)) {
+            bsrv.newWrite(bvo);
+            returnPage = "redirect:/list?cpg=1";
+        } else {
+            rda.addFlashAttribute("bvo", bvo);
+            rda.addFlashAttribute("msg", "자동가입방지 확인이 실패했어요!");
+        }
 
-        return "redirect:/list?cpg=1";
+        return returnPage;
     }
 
     @GetMapping("/del")
     public String getDelete(HttpSession session, String bno) {
         String returnPage = "redirect:/list?cpg=1";
 
-        if(session.getAttribute("mvo") != null){
+        if (session.getAttribute("mvo") != null) {
             bsrv.deleteBoard(bno);
         }
 
@@ -120,19 +152,31 @@ public class BoardController {
     }
 
     @GetMapping("/upd")
-    public String getUpdate(){
+    public String getUpdate(HttpSession session, String bno, Model model) {
+        String returnPage = "board/update";
 
-        return "board/update";
+        if (session.getAttribute("mvo") == null) {
+            returnPage = "redirect:/login";
+        } else {
+            model.addAttribute("bvo", bsrv.readOneBoard(bno));
+        }
+
+        return returnPage;
     }
 
 
     @PostMapping("/upd")
-    public ModelAndView postUpdate(ModelAndView mv, String bno, String title, String contents) {
+    public String postUpdate(BoardVO bvo, HttpSession session) {
+        String returnPage = "redirect:/view?bno=" + bvo.getBno();
 
-        bsrv.updateBoard(bno, title, contents);
-        mv.addObject("bno", bno);
-        mv.setViewName("redirect:/list");
+        if (session.getAttribute("mvo") == null) {
+            returnPage = "redirect:/login";
+        } else {
+            bsrv.modifyBoard(bvo);
+        }
 
-        return mv;
+        return returnPage;
     }
+
+
 }

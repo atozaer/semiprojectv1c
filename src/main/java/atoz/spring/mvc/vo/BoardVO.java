@@ -1,5 +1,8 @@
 package atoz.spring.mvc.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class BoardVO {
     private int bno;
     private String title;

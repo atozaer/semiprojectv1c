@@ -32,7 +32,16 @@
         .dragup {
             vertical-align: top;
         }
+
+        .pushright {
+            margin-left: 110px;
+        }
+        .danger{
+            color: red;
+            font-weight: bold;
+        }
     </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </th:block>
 
 <th:block layout:fragment="main">
@@ -42,7 +51,7 @@
         <form name="boardfrm" id="boardfrm">
             <div>
                 <label for="tlt">제목</label>
-                <input type="text" name="title" id="tlt"/>
+                <input type="text" name="title" id="tlt" th:value="${(bvo==null)}?'':${bvo.title}"/>
             </div>
             <div>
                 <label for="uid">작성자</label>
@@ -50,8 +59,14 @@
             </div>
             <div>
                 <label for="cnt" class="dragup">본문</label>
-                <textarea cols="45" rows="7" name="contents" id="cnt"></textarea>
+                <textarea cols="45" rows="7" name="contents" id="cnt" th:value="${(bvo==null)}?'':${bvo.contents}"></textarea>
             </div>
+            <div class="g-recaptcha pushright" data-sitekey="6Lcr81oiAAAAAIIAq1JrVTZre3O6bNElScq0JFgY">
+            </div>
+            <div class="pushright danger" th:text="${msg}"></div>
+            
+            
+            <input type="hidden" name="gcaptcha"/>
             <div>
                 <button type="button" id="bdokbtn">입력완료</button>
                 <button type="reset">다시입력</button>
@@ -69,9 +84,12 @@
             let frm = document.boardfrm;
             if (frm.title.value == '') {
                 alert("제목을 작성하세요!!");
-            }else if (frm.contents.value == '') {
+            } else if (frm.contents.value == '') {
                 alert("본문을 입력하세요!!");
+            } else if (grecaptcha.getResponse() == '') {
+                alert("자동가입방지를 클릭하세요!!");
             } else {
+                frm.gcaptcha.value = grecaptcha.getResponse();
                 frm.method = "post";
                 frm.submit();
             }

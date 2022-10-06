@@ -13,7 +13,7 @@ public interface BoardDAO {
 
     int deleteOneBoard(String bno);
 
-    int updateOneBoard(String bno, String title, String contents);
-
     int selectCountBoard(String fkey, String fval);
+
+    int updateBoard(BoardVO bvo);
 }

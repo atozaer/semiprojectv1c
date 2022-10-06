@@ -19,6 +19,9 @@ import java.util.Map;
 @Repository("bdao")
 public class BoardDAOImpl implements BoardDAO {
 
+    @Autowired
+    BoardVO bvo;
+
     @Autowired  //bean 태그에 정의한 경우 생략가능
     private JdbcTemplate jdbcTemplate;
 
@@ -97,19 +100,6 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public int updateOneBoard(String bno, String title, String contents) {
-        String sql = " update board set (title=?,content=?) = where bno = ?";
-
-        Object[] params = {
-                title,
-                contents,
-                bno
-        };
-
-        return jdbcTemplate.update(sql,params);
-    }
-
-    @Override
     public int selectCountBoard(String fkey, String fval) {
         StringBuilder sql = new StringBuilder();
         sql.append(" select ceil(count(bno)/25) pages from board ");
@@ -126,6 +116,20 @@ public class BoardDAOImpl implements BoardDAO {
         params.put("fval", "%" + fval + "%");
 
         return namedParameterJdbcTemplate.queryForObject(sql.toString(), params, Integer.class);
+    }
+
+    @Override
+    public int updateBoard(BoardVO bvo) {
+
+        // 제목, 본문, 수정한날짜/시간을 수정함
+        String sql = " update board set title = :title, contents = :contents, regdate = current_timestamp() where bno = :bno ";
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", bvo.getTitle());
+        params.put("contents", bvo.getContents());
+        params.put("bno", bvo.getBno());
+
+        return namedParameterJdbcTemplate.update(sql, params);
     }
 
 }

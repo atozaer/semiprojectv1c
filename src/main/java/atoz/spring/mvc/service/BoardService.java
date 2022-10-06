@@ -13,7 +13,7 @@ public interface BoardService {
 
     int deleteBoard(String bno);
 
-    int updateBoard(String bno, String title, String contents);
-
     int readCountBoard(String fkey, String fval);
+
+    boolean modifyBoard(BoardVO bvo);
 }

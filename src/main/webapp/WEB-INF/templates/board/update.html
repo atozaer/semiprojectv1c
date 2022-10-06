@@ -4,34 +4,31 @@
 
 <th:block layout:fragment="mystyle">
     <style>
-        #view {
+        /* 수정하기에 대한 스타일 */
+        #boardfrm {
             border: 1px solid blue;
-            width: 70%;
-            margin: 65px auto;
+            width: 500px;
+            margin: 0 auto;
         }
-
-        #view div {
-            margin-top: 10px;
+        #boardfrm div{
+            margin-bottom: 10px;
         }
-
-        #view label {
-            display: inline-block;
-            width: 120px;
+        #boardfrm label {
+            width: 110px;
+            display:inline-block;
             text-align: right;
             font-weight: bold;
-            margin-right: 15px;
         }
-
-        #cnts {
-            display: inline-block;
-            width: 350px;
-            height: 450px;
-            border: 1px solid black;
+        #boardfrm button:first-child {
+            margin-left: 115px;
         }
-
+        input:hover, textarea:hover {
+            background: mintcream;
+        }
         .dragup {
             vertical-align: top;
         }
+    
     
     </style>
 
@@ -39,44 +36,41 @@
 
 <th:block layout:fragment="main">
     <div id="main">
-        <h1>게시판 본문</h1>
-        <div id="view">
-            <form name="updfrm" id="updfrm">
-                <div>
-                    <label for="tlt">제목</label>
-                    <input th:text="${bvo.title}"></input>
-                </div>
-                <div>
-                    <label for="uid">작성자</label>
-                    <input th:text="${bvo.userid}" readonly></input>
-                </div>
-                <div>
-                    <label for="rgd">작성일</label>
-                    <input th:text="${bvo.regdate}" readonly></input>
-                </div>
-                <div>
-                    <label for="vws">조회수</label>
-                    <input th:text="${bvo.views}" readonly></input>
-                </div>
-                <div>
-                    <label for="cnt" class="dragup">본문</label>
-                    <textarea th:text="${bvo.contents}" id="cnts"></textarea>
-                </div>
-                <div>
-                    <button type="button" id="updatebtn">수정 완료</button>
-                </div>
-            </form>
-        </div>
+        <h1>게시판 수정하기</h1>
+        <form name="boardfrm" id="boardfrm">
+            <div>
+                <label for="tlt">제목</label>
+                <input type="text" name="title" id="tlt" th:value="${bvo.title}">
+            </div>
+            <div>
+                <label for="uid">작성자</label>
+                <input type="text" name="userid" id="uid" th:value="${session.mvo.userid}" readonly="readonly">
+            </div>
+            <div>
+                <label for="cnt" class="dragup">본문</label>
+                <textarea cols="45" rows="7" name="contents" id="cnt" th:text="${bvo.contents}"></textarea>
+            </div>
+            <div>
+                <button type="button" id="bdokbtn">수정완료</button>
+                <button type="reset">다시수정</button>
+            </div>
+        </form>
     </div>
 </th:block>
 
 <th:block layout:fragment="myscript">
     <script>
-        let update = document.querySelector("#updatebtn").addEventListener('click', function () {
-            let frm = document.updfrm
-            frm.method = 'post';
-            frm.submit();
-        })
+        let bdokbtn = document.getElementById("bdokbtn");
+        bdokbtn.addEventListener('click', checkboardfrm);
+        
+        function checkboardfrm(){
+            let frm = document.boardfrm;
+            if (frm.title.value == '') alert('제목을 작성해주세요');
+            else if (frm.contents.value == '') alert('본문을 작성해주세요');
+            else {
+                frm.method = 'post';
+                frm.submit();
+            }
+        }
     </script>
-
 </th:block>

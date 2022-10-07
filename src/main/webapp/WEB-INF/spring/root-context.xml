@@ -14,7 +14,9 @@
 	<context:property-placeholder location="/WEB-INF/jdbc.properties"/>
 	
 	<util:properties id="sql" location="/WEB-INF/sql.properties"/>
+
 	
+	<!-- spring JDBC를 위한 설정-->
 	<bean id="basicDataSource"
 		  class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		  p:driverClassName="${jdbc.mdrv}" p:url="${jdbc.murl}"
@@ -24,8 +26,20 @@
 		  class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="basicDataSource"/>
 	</bean>
-
-
+	
+	<!-- myBatis3을 위한 설정-->
+<!--	<bean id="dbcpDataSource"></bean>-->
+	
+	<bean id="sqlSessionFactory"
+		  class="org.mybatis.spring.SqlSessionFactoryBean"
+		  p:dataSource-ref="basicDataSource"
+		  p:mapperLocations="classpath:mybatis3/*Mapper.xml">
+	</bean>
+	
+	<bean id="sqlSession"
+		  class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" index="0"/>
+	</bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	

@@ -37,6 +37,10 @@
         <level value="debug"/>
     </logger>
     
+    <logger name="member">
+        <level value="debug"></level>
+    </logger>
+    
     <!-- Root Logger -->
     <root>
         <priority value="warn"/>

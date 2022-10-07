@@ -2,6 +2,7 @@ package atoz.spring.mvc.dao;
 
 import atoz.spring.mvc.vo.MemberVO;
 import atoz.spring.mvc.vo.ZipcodeVO;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,6 +32,9 @@ public class MemberDAOImpl implements MemberDAO {
 
     private RowMapper<ZipcodeVO> zipcodeVORowMapper = BeanPropertyRowMapper.newInstance(ZipcodeVO.class);
 
+    @Autowired
+    private SqlSession sqlSession;
+
     public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
         MemberVO mvo = new MemberVO();
 
@@ -53,9 +57,8 @@ public class MemberDAOImpl implements MemberDAO {
 
     @Override
     public int insertMember(MemberVO mvo) {
-        SqlParameterSource params = new BeanPropertySqlParameterSource(mvo);
 
-        return simpleJdbcInsert.execute(params);
+        return sqlSession.insert("member.insertMember", mvo);
     }
 
     @Override

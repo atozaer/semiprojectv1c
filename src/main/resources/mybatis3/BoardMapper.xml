@@ -14,10 +14,8 @@
             resultType="atoz.spring.mvc.vo.BoardVO">
         
         select bno, title, userid, regdate, views from board
-        
-        <if test="fkey == 'title'">where title like #{fval}</if>
-        <if test="fkey == 'userid'">where userid like #{fval}</if>
-        <if test="fkey == 'contents'">where contents like #{fval}</if>
+    
+        <if test="fkey != ''"> where ${fkey} like #{fval} </if>
         
         order by bno desc limit #{snum}, 25
     </select>
@@ -46,10 +44,8 @@
             resultType="int">
         
         select ceil(count(bno)/25) pages from board
-    
-        <if test="fkey == 'title'">where title like #{fval}</if>
-        <if test="fkey == 'userid'">where userid like #{fval}</if>
-        <if test="fkey == 'contents'">where contents like #{fval}</if>
+        
+        <if test="fkey != ''"> where ${fkey} like #{fval} </if>
         
     </select>
     

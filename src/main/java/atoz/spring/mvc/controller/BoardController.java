@@ -3,7 +3,6 @@ package atoz.spring.mvc.controller;
 import atoz.spring.mvc.service.BoardService;
 import atoz.spring.mvc.utils.RecaptchaUtils;
 import atoz.spring.mvc.vo.BoardVO;
-import atoz.spring.mvc.vo.MemberVO;
 import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.SessionFlashMapManager;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;

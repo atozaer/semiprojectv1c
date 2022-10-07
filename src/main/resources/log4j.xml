@@ -34,10 +34,14 @@
     </logger>
     
     <logger name="org.springframework.jdbc">
-        <level value="debug"/>
+        <level value="info"/>
     </logger>
     
     <logger name="member">
+        <level value="debug"></level>
+    </logger>
+    
+    <logger name="board">
         <level value="debug"></level>
     </logger>
     

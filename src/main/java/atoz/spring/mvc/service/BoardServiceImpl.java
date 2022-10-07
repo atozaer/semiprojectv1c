@@ -28,7 +28,7 @@ public class BoardServiceImpl implements BoardService{
     public List<BoardVO> readBoard(int snum, String fkey, String fval) {
 
 
-        return bdao.selectBoard(snum,fkey,fval);
+        return bdao.selectAllBoard(snum,fkey,fval);
     }
 
     @Override

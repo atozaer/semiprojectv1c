@@ -3,6 +3,59 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board">
-
+    
+    <insert id="insertBoard" statementType="PREPARED"
+            parameterType="atoz.spring.mvc.vo.BoardVO">
+        insert into board (title,userid,contents) values (#{title},#{userid},#{contents})
+    </insert>
+    
+    <select id="selectAllBoard" statementType="PREPARED"
+            parameterType="map"
+            resultType="atoz.spring.mvc.vo.BoardVO">
+        
+        select bno, title, userid, regdate, views from board
+        
+        <if test="fkey == 'title'">where title like #{fval}</if>
+        <if test="fkey == 'userid'">where userid like #{fval}</if>
+        <if test="fkey == 'contents'">where contents like #{fval}</if>
+        
+        order by bno desc limit #{snum}, 25
+    </select>
+    
+    <update id="updateViewsBoard" statementType="PREPARED"
+            parameterType="String">
+        
+        update board set views = views + 1 where bno = #{bno}
+    </update>
+    
+    <select id="selectOneBoard" statementType="PREPARED"
+            parameterType="String"
+            resultType="atoz.spring.mvc.vo.BoardVO">
+        
+        select * from board where bno = #{bno}
+    </select>
+    
+    <delete id="deleteOneBoard" statementType="PREPARED"
+            parameterType="String">
+        
+        delete from board where bno = #{bno}
+    </delete>
+    
+    <select id="selectCountBoard" statementType="PREPARED"
+            parameterType="map"
+            resultType="int">
+        
+        select ceil(count(bno)/25) pages from board
+    
+        <if test="fkey == 'title'">where title like #{fval}</if>
+        <if test="fkey == 'userid'">where userid like #{fval}</if>
+        <if test="fkey == 'contents'">where contents like #{fval}</if>
+        
+    </select>
+    
+    <update id="updateBoard" statementType="PREPARED"
+            parameterType="atoz.spring.mvc.vo.BoardVO">
+        update board set title = #{title}, contents = #{contents}, regdate = current_timestamp() where bno = #{bno}
+    </update>
 
 </mapper>
